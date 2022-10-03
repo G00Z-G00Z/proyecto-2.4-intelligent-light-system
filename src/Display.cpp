@@ -1,23 +1,24 @@
 #include <Display.h>
 #include <Arduino.h>
 
-using namespace Display;
-
-void LightLevelsDisplay::clearAndResetCursor()
+namespace Display
 {
-    this->clear();
-    this->home();
-}
+    void clearAndResetCursor(Display::LCD *lcd)
+    {
+        lcd->clear();
+        lcd->home();
+    }
 
-void LightLevelsDisplay::printPowerLeds(float pow1, float pow2)
-{
-    this->clearAndResetCursor();
-    this->printPowerInfo(1, pow1);
-    this->setCursor(0, 1);
-    this->printPowerInfo(2, pow2);
-}
+    void printPowerLeds(Display::LCD *lcd, float pow1, float pow2)
+    {
+        clearAndResetCursor(lcd);
+        printPowerInfo(lcd, 1, pow1);
+        lcd->setCursor(0, 1);
+        printPowerInfo(lcd, 2, pow2);
+    }
 
-void LightLevelsDisplay::printPowerInfo(int ledNum, float power)
-{
-    this->print("Led" + String(ledNum) + ": " + String(power) + "W");
-}
+    static void printPowerInfo(Display::LCD *lcd, float ledNum, float power)
+    {
+        lcd->print("Led" + String(ledNum) + ": " + String(power) + "W");
+    }
+};
