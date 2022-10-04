@@ -1,6 +1,27 @@
 #include <Arduino.h>
 #include <Display.h>
+#include <MotorPWM.h>
+#include <LightSystem.h>
 
+#define DRIVER_EN 9
+#define DRIVER_IN1 30
+#define DRIVER_IN2 31
+
+// Analog pins
+#define PIN_OUTSIDE A0
+#define PIN_INSIDE A1
+
+// constants
+#define MAX_LIGTH_OUTSIDE 820
+#define MIN_LIGTH_OUTSIDE 770
+#define IDEAL_LIGTH 1010
+
+// Motor
+Driver::MotorPWM leds(DRIVER_EN, DRIVER_IN1, DRIVER_IN2);
+
+LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, 2000);
+
+// Lcd
 const int rs = 40,
           en = 41,
           d4 = 42,
@@ -18,8 +39,22 @@ void setup()
   Serial.println("Hello world!");
 }
 
+void printValuesEvery1000ms()
+{
+  static double passedTime = millis();
+  double currentTime = millis();
+
+  if (currentTime - passedTime < 1000)
+  {
+    return;
+  }
+
+  lightSystem.printSerialValues();
+  passedTime = currentTime;
+}
+
 void loop()
 {
-  Display::printPowerLeds(lcd, 1.0f, 55.5f);
-  delay(300);
+  printValuesEvery1000ms();
+  lightSystem.update();
 }

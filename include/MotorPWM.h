@@ -13,6 +13,6 @@ namespace Driver
         MotorPWM(int pinEnable, int pin1, int pin2);
 
         void setDutyCycle(unsigned char duty);
-        };
+    };
 
 };
