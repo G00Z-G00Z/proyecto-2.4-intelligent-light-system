@@ -80,3 +80,20 @@ void IntelligentLightSystem::update(bool verbose = false)
 
     t.reset();
 }
+
+static float coefficients[] = {
+    0.00437876,
+    -0.01385081, 0.00541345};
+
+float LightSystem::voltageToCurrent(float voltage)
+{
+
+    if (voltage < 2.5)
+    {
+        return 0;
+    }
+
+    float modelCurrent = coefficients[0] + coefficients[1] * voltage + coefficients[2] * voltage * voltage;
+
+    return modelCurrent < 0 ? 0 : modelCurrent;
+}

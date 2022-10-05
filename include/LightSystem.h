@@ -7,6 +7,14 @@ namespace LightSystem
 {
 
     /**
+     * @brief Returns the current in the current configuration
+     *
+     * @param voltage
+     * @return float
+     */
+    float voltageToCurrent(float voltage);
+
+    /**
      * @brief Intelligente light systema that regulates a room light
      * For the light sensors, 0 -> darkess, 1023 -> Light
      */
