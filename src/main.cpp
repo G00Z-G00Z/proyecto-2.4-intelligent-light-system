@@ -2,6 +2,7 @@
 #include <Display.h>
 #include <MotorPWM.h>
 #include <LightSystem.h>
+#include <VoltageAnalogInput.h>
 
 #define DRIVER_EN 9
 #define DRIVER_IN1 30
@@ -20,6 +21,8 @@
 Driver::MotorPWM leds(DRIVER_EN, DRIVER_IN1, DRIVER_IN2);
 
 LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, 955);
+
+VoltageAnalog::Reader readear(A2);
 
 // Lcd
 const int rs = 40,
@@ -40,6 +43,8 @@ void setup()
   leds.setDutyCycle(map(100, 0, 100, 0, 255));
 }
 
+static float referenceVoltage = 5.0f;
+
 void printValuesEvery1000ms()
 {
   static double passedTime = millis();
@@ -51,6 +56,19 @@ void printValuesEvery1000ms()
   }
 
   lightSystem.printSerialValues();
+
+  // Power
+
+  float outputVoltage = readear.getVoltage();
+  float inputVoltage = (float)lightSystem.getCurrentDuty() / 255.0f * referenceVoltage;
+
+  float differeceVoltage = outputVoltage - inputVoltage;
+
+  float currentmA = (float)map(differeceVoltage, 0, 4, 0, 20);
+
+  float powerMW = currentmA * differeceVoltage;
+
+  Display::printPowerLeds(lcd, powerMW, powerMW);
   passedTime = currentTime;
 }
 
