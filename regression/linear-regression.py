@@ -10,7 +10,7 @@ def main():
     sensor_table = pd.read_csv(SENSOR_DATA_FILENAME)
     plt.figure(1)
     sensor_table  = sensor_table.apply(pd.to_numeric, args=('coerce',))
-    sensor_table.plot( x="vol", y="current",grid=True, title="current vs voltage")
+    sensor_table.plot( x="vol", y="current",grid=True, title="current vs input voltage")
     distance = sensor_table.loc[:, "current"] .to_numpy().reshape(-1,1)
     voltage = sensor_table.loc[:, "vol"] .to_numpy().reshape(-1,1)
 

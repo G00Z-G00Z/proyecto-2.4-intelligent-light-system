@@ -55,18 +55,20 @@ void printValuesEvery1000ms()
     return;
   }
 
-  lightSystem.printSerialValues();
+  // lightSystem.printSerialValues();
 
   // Power
-
   float outputVoltage = readear.getVoltage();
   float inputVoltage = (float)lightSystem.getCurrentDuty() / 255.0f * referenceVoltage;
 
-  float differeceVoltage = outputVoltage - inputVoltage;
+  float differeceVoltage = inputVoltage - outputVoltage;
 
-  float currentmA = LightSystem::voltageToCurrent(differeceVoltage) * 1000;
+  float currentmA = LightSystem::voltageToCurrent(inputVoltage) * 1000;
 
   float powerMW = currentmA * differeceVoltage;
+
+  Serial.println(
+      "|Vin" + String(inputVoltage) + "|Vout" + String(outputVoltage) + "|dV:" + String(differeceVoltage) + "|mA" + String(currentmA) + "|mW" + String(powerMW));
 
   Display::printPowerLeds(lcd, powerMW, powerMW);
   passedTime = currentTime;
