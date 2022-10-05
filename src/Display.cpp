@@ -1,9 +1,9 @@
 #include <Display.h>
 #include <Arduino.h>
 
-static void printPowerInfo(Display::LCD &lcd, float ledNum, float power)
+static void printPowerInfo(Display::LCD &lcd, int ledNum, float power)
 {
-    lcd.print("Led" + String(ledNum) + ": " + String(power) + "W");
+    lcd.print("Led" + String(ledNum) + ": " + String(power) + "mW");
 }
 
 void Display::clearAndResetCursor(Display::LCD &lcd)
