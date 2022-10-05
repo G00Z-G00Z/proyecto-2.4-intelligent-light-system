@@ -2,6 +2,7 @@
 #include <math.h>
 #include <Arduino.h>
 #include <RBD_LightSensor.h>
+#include <SmartTimer.h>
 #include <MotorPWM.h>
 
 using namespace LightSystem;
@@ -18,6 +19,8 @@ IntelligentLightSystem::IntelligentLightSystem(int pinInside, int pinOutside, Dr
     values.ideal = idealLightValue;
     motor.setDutyCycle(currentDuty);
     motor.forward();
+    t = SmartTimer::Timer(100);
+    t.reset();
 }
 
 void IntelligentLightSystem::printSerialValues()
@@ -47,6 +50,11 @@ int IntelligentLightSystem::getModifyGradient()
 
 void IntelligentLightSystem::update()
 {
+    if (!t.hasIntervalPassed())
+    {
+        return;
+    }
+
     updateValues();
     int gradient = getModifyGradient();
     int change = changeFactor * gradient;
@@ -63,4 +71,6 @@ void IntelligentLightSystem::update()
     currentDuty = nextDuty;
 
     motor->setDutyCycle(currentDuty);
+
+    t.reset();
 }

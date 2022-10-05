@@ -1,4 +1,5 @@
 #pragma once
+#include <SmartTimer.h>
 #include <RBD_LightSensor.h>
 #include <MotorPWM.h>
 
@@ -11,6 +12,8 @@ namespace LightSystem
      */
     class IntelligentLightSystem
     {
+
+        SmartTimer::Timer t;
 
         struct LightValues
         {
@@ -44,6 +47,11 @@ namespace LightSystem
 
         void printSerialValues();
 
+        /**
+         * @brief Updates the values and the pwm every 100ms. You must call it
+         * without delays
+         *
+         */
         void update();
     };
 
