@@ -52,7 +52,7 @@ namespace LightSystem
          * without delays
          *
          */
-        void update();
+        void update(bool verbose = false);
     };
 
 };

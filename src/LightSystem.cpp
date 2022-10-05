@@ -48,8 +48,9 @@ int IntelligentLightSystem::getModifyGradient()
     return isPositive ? 1 : -1;
 }
 
-void IntelligentLightSystem::update()
+void IntelligentLightSystem::update(bool verbose = false)
 {
+
     if (!t.hasIntervalPassed())
     {
         return;
@@ -66,9 +67,12 @@ void IntelligentLightSystem::update()
         return;
     }
 
-    Serial.println(
-        "G:" + String(change) +
-        "|N:" + String(nextDuty));
+    if (verbose)
+    {
+        Serial.println(
+            "G:" + String(change) +
+            "|N:" + String(nextDuty));
+    }
 
     currentDuty = nextDuty;
 
