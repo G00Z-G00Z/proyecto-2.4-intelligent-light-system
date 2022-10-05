@@ -1,7 +1,8 @@
 #include <Arduino.h>
+#include <Button.h>
 #include <Display.h>
-#include <MotorPWM.h>
 #include <LightSystem.h>
+#include <MotorPWM.h>
 #include <VoltageAnalogInput.h>
 
 #define DRIVER_EN 9
@@ -23,6 +24,8 @@ Driver::MotorPWM leds(DRIVER_EN, DRIVER_IN1, DRIVER_IN2);
 LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, 955);
 
 VoltageAnalog::Reader readear(A2);
+
+Buttons::Button btn(38);
 
 // Lcd
 const int rs = 40,
@@ -78,4 +81,9 @@ void loop()
 {
   printValuesEvery1000ms();
   lightSystem.update();
+
+  if (btn.wasPressed())
+  {
+    lightSystem.toggleMode();
+  }
 }
