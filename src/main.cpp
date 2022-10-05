@@ -19,7 +19,7 @@
 // Motor
 Driver::MotorPWM leds(DRIVER_EN, DRIVER_IN1, DRIVER_IN2);
 
-LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, 2000);
+LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, 955);
 
 // Lcd
 const int rs = 40,
@@ -37,6 +37,7 @@ void setup()
   lcd.begin(16, 2);
   lcd.print("Hello world");
   Serial.println("Hello world!");
+  leds.setDutyCycle(map(100, 0, 100, 0, 255));
 }
 
 void printValuesEvery1000ms()

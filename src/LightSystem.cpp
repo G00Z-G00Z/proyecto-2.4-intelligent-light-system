@@ -7,7 +7,7 @@
 
 using namespace LightSystem;
 
-static const int threshold = 5;
+static const int threshold = 10;
 static const int changeFactor = 5;
 
 IntelligentLightSystem::IntelligentLightSystem(int pinInside, int pinOutside, Driver::MotorPWM &motor, int idealLightValue)
@@ -37,7 +37,7 @@ void IntelligentLightSystem::updateValues()
 
 int IntelligentLightSystem::getModifyGradient()
 {
-    int difference = (values.ideal - values.inside + values.outside);
+    int difference = (values.ideal - (values.inside + values.outside));
     bool isPositive = difference > 0;
 
     if (abs(difference) <= threshold)
@@ -60,13 +60,15 @@ void IntelligentLightSystem::update()
     int change = changeFactor * gradient;
     int nextDuty = change + currentDuty;
 
-    Serial.println("Calculating gradient:" + String(gradient) + "/" + String(currentDuty) + "/" + String(nextDuty));
-
     // Check bounds
     if (nextDuty < 0 or 255 < nextDuty)
     {
         return;
     }
+
+    Serial.println(
+        "G:" + String(change) +
+        "|N:" + String(nextDuty));
 
     currentDuty = nextDuty;
 
