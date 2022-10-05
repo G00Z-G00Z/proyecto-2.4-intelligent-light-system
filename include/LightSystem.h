@@ -53,6 +53,8 @@ namespace LightSystem
          *
          */
         void update(bool verbose = false);
+
+        int getCurrentDuty() { return currentDuty; }
     };
 
 };
