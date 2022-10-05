@@ -64,7 +64,7 @@ void printValuesEvery1000ms()
 
   float differeceVoltage = outputVoltage - inputVoltage;
 
-  float currentmA = (float)map(differeceVoltage, 0, 4, 0, 20);
+  float currentmA = LightSystem::voltageToCurrent(differeceVoltage) * 1000;
 
   float powerMW = currentmA * differeceVoltage;
 
