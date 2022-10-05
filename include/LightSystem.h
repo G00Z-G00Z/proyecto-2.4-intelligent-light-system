@@ -23,6 +23,8 @@ namespace LightSystem
 
         SmartTimer::Timer t;
 
+        Mode mode = NORMAL;
+
         struct LightValues
         {
             int inside;
@@ -51,7 +53,17 @@ namespace LightSystem
         void updateValues();
 
     public:
+        enum class Mode
+        {
+            SMART,
+            NORMAL
+        };
+
         IntelligentLightSystem(int pinInside, int pinOutside, Driver::MotorPWM &motor, int idealLightValue);
+
+        void changeMode(Mode mode);
+
+        void toggleMode();
 
         void printSerialValues();
 

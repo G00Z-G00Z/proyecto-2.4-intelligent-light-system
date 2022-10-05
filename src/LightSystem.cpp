@@ -57,6 +57,15 @@ void IntelligentLightSystem::update(bool verbose = false)
     }
 
     updateValues();
+
+    if (mode == Mode::NORMAL)
+    {
+
+        currentDuty = 255;
+        motor->setDutyCycle(255);
+        return;
+    }
+
     int gradient = getModifyGradient();
     int change = changeFactor * gradient;
     int nextDuty = change + currentDuty;
@@ -96,4 +105,21 @@ float LightSystem::voltageToCurrent(float voltage)
     float modelCurrent = coefficients[0] + coefficients[1] * voltage + coefficients[2] * voltage * voltage;
 
     return modelCurrent < 0 ? 0 : modelCurrent;
+}
+
+void IntelligentLightSystem::changeMode(IntelligentLightSystem::Mode mode)
+{
+    this->mode = mode;
+}
+
+void IntelligentLightSystem::toggleMode()
+{
+    if (mode == Mode::SMART)
+    {
+        changeMode(Mode::NORMAL);
+    }
+    else
+    {
+        changeMode(Mode::SMART);
+    }
 }
