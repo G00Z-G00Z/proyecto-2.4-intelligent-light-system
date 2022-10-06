@@ -4,6 +4,10 @@
 namespace VoltageAnalog
 {
 
+    /**
+     * @brief Reads an analoge input and returns the voltage
+     *
+     */
     class Reader : private RBD::LightSensor
     {
 

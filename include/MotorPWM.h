@@ -1,6 +1,10 @@
 #pragma once
 #include <Motor_RS.h>
 
+/**
+ * @brief Driver l293d
+ *
+ */
 namespace Driver
 {
 
