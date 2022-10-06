@@ -54,9 +54,7 @@ void setup()
 {
   Serial.begin(9600);
   lcd.begin(16, 2);
-  lcd.print("Hello world");
-  Serial.println("Hello world!");
-  leds.setDutyCycle(map(100, 0, 100, 0, 255));
+  lcd.print("Intelligent Systems");
 }
 
 static float referenceVoltage = 5.0f;
