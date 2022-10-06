@@ -10,7 +10,9 @@ def main():
     sensor_table = pd.read_csv(SENSOR_DATA_FILENAME)
     plt.figure(1)
     sensor_table  = sensor_table.apply(pd.to_numeric, args=('coerce',))
-    sensor_table.plot(kind="scatter", x="vol", y="current",grid=True, title="current vs input voltage", label="data")
+    sensor_table.plot(kind="scatter", x="vol", y="current",grid=True, title="$I$ vs $V_{input}$" , xlabel="$V_{input}$", ylabel="$I$", color="green")
+
+
     distance = sensor_table.loc[:, "current"] .to_numpy().reshape(-1,1)
     voltage = sensor_table.loc[:, "vol"] .to_numpy().reshape(-1,1)
 
@@ -26,7 +28,19 @@ def main():
     coeffs = poly_model.coef_
     print(f"Coeefs = {coeffs}")
     print(f"inter = {poly_model.intercept_}")
-    plt.plot(voltage, distance_predicts)
+    plt.plot(voltage, distance_predicts, color="orange")
+    
+    equation = "I = "
+    
+    for intercept in poly_model.intercept_:
+        equation += f"{intercept:0.5f}"
+        
+    for coeffs in poly_model.coef_:
+        for i, coef in enumerate(coeffs):
+            equation += f" + {coef:0.5f} * $V^{i + 1}$"
+
+    plt.legend([ "data", equation])
+    plt.annotate(f"$R^2 = {R_2:0.4f}$", (1,0.02))
     plt.savefig("figura.png")
 
 if __name__ == '__main__':
