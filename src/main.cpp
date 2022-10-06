@@ -59,38 +59,43 @@ void setup()
 
 static float referenceVoltage = 5.0f;
 
-void printValuesEvery1000ms()
+/**
+ * @brief Prints the values of the intelligent system every interval_ms
+ *
+ * @param interval_ms
+ * @param verbose
+ */
+static void printValuesEveryInterval(double interval_ms = 1000, bool verbose = false)
 {
   static double passedTime = millis();
   double currentTime = millis();
 
-  if (currentTime - passedTime < 1000)
-  {
+  if (currentTime - passedTime < interval_ms)
     return;
-  }
-
-  // lightSystem.printSerialValues();
 
   // Power
   float outputVoltage = readear.getVoltage();
   float inputVoltage = (float)lightSystem.getCurrentDuty() / 255.0f * referenceVoltage;
-
   float differeceVoltage = inputVoltage - outputVoltage;
-
   float currentmA = LightSystem::voltageToCurrent(inputVoltage) * 1000;
-
   float powerMW = currentmA * differeceVoltage;
 
-  Serial.println(
-      "|Vin" + String(inputVoltage) + "|Vout" + String(outputVoltage) + "|dV:" + String(differeceVoltage) + "|mA" + String(currentmA) + "|mW" + String(powerMW));
-
   Display::printPowerLeds(lcd, powerMW, powerMW);
+
+  if (verbose)
+  {
+    Serial.println(
+        "|Vin" + String(inputVoltage) + "|Vout" + String(outputVoltage) + "|dV:" + String(differeceVoltage) + "|mA" + String(currentmA) + "|mW" + String(powerMW));
+
+    lightSystem.printSerialValues();
+  }
+
   passedTime = currentTime;
 }
 
 void loop()
 {
-  printValuesEvery1000ms();
+  printValuesEveryInterval();
   lightSystem.update();
 
   if (btn.wasPressed())
