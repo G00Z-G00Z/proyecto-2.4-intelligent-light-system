@@ -5,27 +5,28 @@
 #include <MotorPWM.h>
 #include <VoltageAnalogInput.h>
 
+// Pins in driver
 #define DRIVER_EN 9
 #define DRIVER_IN1 30
 #define DRIVER_IN2 31
 
-// Analog pins
+// Other pins
 #define PIN_OUTSIDE A0
 #define PIN_INSIDE A1
+#define PIN_BUTTON 38
+#define PIN_ANALOG_READER A2
 
-// constants
-#define MAX_LIGTH_OUTSIDE 820
-#define MIN_LIGTH_OUTSIDE 770
-#define IDEAL_LIGTH 1010
+// Constants
+#define IDEAL_LIGTH 955
 
 // Motor
 Driver::MotorPWM leds(DRIVER_EN, DRIVER_IN1, DRIVER_IN2);
 
-LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, 955);
+LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, IDEAL_LIGTH);
 
-VoltageAnalog::Reader readear(A2);
+VoltageAnalog::Reader readear(PIN_ANALOG_READER);
 
-Buttons::Button btn(38);
+Buttons::Button btn(PIN_BUTTON);
 
 // Lcd
 const int rs = 40,
