@@ -19,13 +19,25 @@
 // Constants
 #define IDEAL_LIGTH 955
 
-// Motor
+// Leds in Driver
 Driver::MotorPWM leds(DRIVER_EN, DRIVER_IN1, DRIVER_IN2);
 
+/**
+ * @brief Intelligent light system that controlls the leds brigthness
+ *
+ */
 LightSystem::IntelligentLightSystem lightSystem(PIN_INSIDE, PIN_OUTSIDE, leds, IDEAL_LIGTH);
 
+/**
+ * @brief Analog reader to read the output voltage
+ *
+ */
 VoltageAnalog::Reader readear(PIN_ANALOG_READER);
 
+/**
+ * @brief Button to change the mode of the intelligent Light system
+ *
+ */
 Buttons::Button btn(PIN_BUTTON);
 
 // Lcd
